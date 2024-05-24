@@ -43,6 +43,8 @@ public class AccountServiceImpl implements IAccountService{
         accountRepository.save(createNewAccount(savedCustomer));
 
     }
+
+
     /**
 
      * @return the new account details
@@ -59,6 +61,11 @@ public class AccountServiceImpl implements IAccountService{
         newAccount.setCreatedAt(LocalDateTime.now());
         newAccount.setCreatedBy("Anonymous");;
         return newAccount;
+    }
+
+    @Override
+    public CustomerDto fetchAccount(String mobileNumber) {
+        return null;
     }
 
 
