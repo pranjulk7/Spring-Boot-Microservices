@@ -6,6 +6,6 @@ import com.eazybytes.account.dto.CustomerDto;
 
 public interface IAccountService {
     void createAccount(CustomerDto customerDto);
-    CustomerDto fetchAccount(String mobileNumber);
+    CustomerDto fetchAccountDetails(String mobileNumber);
 
 }

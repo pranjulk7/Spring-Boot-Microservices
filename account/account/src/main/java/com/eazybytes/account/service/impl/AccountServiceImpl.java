@@ -1,10 +1,13 @@
 package com.eazybytes.account.service.impl;
 
 import com.eazybytes.account.constants.AccountsConstants;
+import com.eazybytes.account.dto.AccountsDto;
 import com.eazybytes.account.dto.CustomerDto;
 import com.eazybytes.account.entites.Account;
 import com.eazybytes.account.entites.Customer;
 import com.eazybytes.account.exception.CustomerAlreadyExistsException;
+import com.eazybytes.account.exception.ResourceNotFoundException;
+import com.eazybytes.account.mapper.AccountsMapper;
 import com.eazybytes.account.mapper.CustomerMapper;
 import com.eazybytes.account.repositories.AccountRepository;
 import com.eazybytes.account.repositories.CustomerRepository;
@@ -64,8 +67,16 @@ public class AccountServiceImpl implements IAccountService{
     }
 
     @Override
-    public CustomerDto fetchAccount(String mobileNumber) {
-        return null;
+    public CustomerDto fetchAccountDetails(String mobileNumber) {
+        Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
+                ()-> new ResourceNotFoundException("Customer","mobileNumber",mobileNumber)
+        );
+        Account accounts = accountRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(
+                ()-> new ResourceNotFoundException("Account","mobileNumber",mobileNumber)
+        );
+        CustomerDto customerDto = CustomerMapper.mapToCustomerDto(customer, new CustomerDto());
+        customerDto.setAccountsDto(AccountsMapper.mapToAccountsDto(accounts, new AccountsDto()));
+        return customerDto;
     }
 
 
