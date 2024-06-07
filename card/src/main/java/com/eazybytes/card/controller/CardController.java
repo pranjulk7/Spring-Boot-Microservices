@@ -2,13 +2,10 @@ package com.eazybytes.card.controller;
 
 import com.eazybytes.card.constant.CardsConstant;
 import com.eazybytes.card.dto.CardsDto;
-import com.eazybytes.card.dto.ErrorResponseDto;
 import com.eazybytes.card.dto.ResponseDto;
-import com.eazybytes.card.entities.Card;
 import com.eazybytes.card.service.ICardService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -51,8 +48,17 @@ public class CardController {
         return ResponseEntity.status(HttpStatus.OK).body(cardsDto);
     }
 
-    @PutMapping(path = "update")
+    @PutMapping(path = "/update")
     ResponseEntity<ResponseDto> updateCard(@RequestBody CardsDto cardsDto){
+       boolean isUpdated =  iCardService.updateCard(cardsDto);
+       if(isUpdated){
+           return ResponseEntity.status(HttpStatus.OK)
+                   .body(new ResponseDto(CardsConstant.STATUS_200,CardsConstant.MESSAGE_200));
+       }else{
+           return ResponseEntity.status(HttpStatus.OK)
+                   .body(new ResponseDto(CardsConstant.STATUS_417,CardsConstant.MESSAGE_417_UPDATE));
+
+       }
 
     }
 

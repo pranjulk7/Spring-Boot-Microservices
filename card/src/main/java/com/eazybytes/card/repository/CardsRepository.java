@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface CardsRepository extends JpaRepository<Card, Long>{
     Optional<Card> findByMobileNumber(String mobilenumber);
 
+    Optional<Card> findByCardNumber(String cardNumber);
+
 
 
 }
